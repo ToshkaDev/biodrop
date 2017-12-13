@@ -1,0 +1,48 @@
+sudo su - postgres
+createuser -P -S -d -e biouniverse
+
+createdb -h localhost -p 5432 -U biouniverse biouniversedb
+psql -h localhost -U biouniverse -d biouniversedb
+
+CREATE TABLE biojobs(
+	BIOJOB_ID integer PRIMARY KEY NOT NULL,
+	JOB_ID integer NOT NULL DEFAULT 0,
+	COOKIE_ID text,
+	FINISHED BOOLEAN NOT NULL,
+	PROGRAM_NAME char(200),
+	EMAIL text,
+	JOB_DATE timestamp without time zone NOT NULL
+);
+
+CREATE TABLE biojob_results(
+	BIOJOB_RES_ID integer PRIMARY KEY NOT NULL,
+	BIOJOB_ID integer REFERENCES biojobs(BIOJOB_ID),
+	RESULT_FILE_NAME text NOT NULL,
+	RESULT_FILE text NOT NUll
+);
+
+CREATE SEQUENCE biojobs_id_seq;
+ALTER TABLE biojobs ALTER BIOJOB_ID SET DEFAULT NEXTVAL('biojobs_id_seq');
+
+CREATE SEQUENCE biojobs_res_id_seq;
+ALTER TABLE biojob_results ALTER BIOJOB_RES_ID SET DEFAULT NEXTVAL('biojobs_res_id_seq');
+
+
+CREATE TABLE biodrop(
+    DROP_ID integer PRIMARY KEY NOT NULL,
+    PROGRAM text NOT NULL,
+    PROGRAM_NAME text NOT NULL,
+    NUMBER_OF_INPUTS int NOT NULL,
+    SCRIPT_NAME char(300) NOT NULL,
+    INPUT_PARAM_PREFIXES text NOT NULL,
+    OUTPUT_PARAM_PREFIXES text NOT NULL,
+    TAB char(200) NOT NULL,
+    SUB_TAB char(200) NOT NULL,
+    PROGRAM_PARAMETERS text NOT NULL,
+    IS_LONG_RUNNING BOOLEAN NOT NULL DEFAULT false,
+    PROGRAM_LANGUAGE char(300) NOT NULL,
+    PROGRAM_DEPENDENCIES text,
+    PROGRAM_INSTALL_INSTRUCTIONS text
+);
+CREATE SEQUENCE biodrop_id_seq;
+ALTER TABLE biodrop ALTER DROP_ID SET DEFAULT NEXTVAL('biodrop_id_seq');

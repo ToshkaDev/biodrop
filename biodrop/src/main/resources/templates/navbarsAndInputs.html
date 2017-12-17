@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head></head>
+<body>
+
+    <div th:fragment="subTab-navbar">
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li th:id="${subTab.subTabId}" th:each="subTab: ${subTabs}">
+                            <a th:href="@{${subTab.link}}">
+                                <span th:text="${subTab.name}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="mainArea-multiple-inputs">
+        <div class="col-md-8 my-textarea">
+            <div class="row">
+                <label class="btn btn-default btn-lg">
+                    Choose Files <input id="first-file" type="file" style="display: none" multiple/>
+                </label>
+                <span class='label label-info' id="first-file-info"></span>
+            </div>
+            <div class="row">
+                <button th:id="${asyncOrNot}" class="btn btn-primary btn-md pull-right" type="button">
+                    <span>Go!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="mainArea-two-inputs">
+        <div class="col-md-4 my-textarea">
+            <div class="row">
+                <textarea id="first-file-area" class="form-control" placeholder="Paste names" rows="8"> </textarea>
+            </div>
+            <div class="row">
+                OR <br />
+                <label class="btn btn-default">
+                    Choose File <input id="first-file" type="file" style="display: none"/>
+                </label>
+                <span class='label label-info' id="first-file-info"></span>
+            </div>
+        </div>
+        <div class="col-md-4 my-textarea">
+            <div class="row">
+                <textarea id="second-file-area" class="form-control" placeholder="Paste sequences" rows="8"> </textarea>
+            </div>
+            <div class="row">
+                OR <br />
+                <label class="btn btn-default">
+                    Choose File <input id="second-file" type="file" style="display: none"/>
+                </label> <span class='label label-info' id="second-file-info"></span>
+            </div>
+            <div class="row">
+                <button th:id="${asyncOrNot}" class="btn btn-primary btn-md pull-right" type="button">
+                    <span>Go!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="mmainArea-one-input">
+        <div class="col-md-8 my-textarea">
+            <div class="row">
+                <textarea id="first-file-area" class="form-control" placeholder="Paste sequences in fasta format." rows="8"> </textarea>
+            </div>
+            <div class="row">
+                OR <br />
+                <label class="btn btn-default">
+                    Choose File <input id="first-file" type="file" style="display: none"/>
+                </label>
+                <span class='label label-info' id="first-file-info"></span>
+            </div>
+            <div class="row">
+                <button th:id="${asyncOrNot}" class="btn btn-primary btn-md pull-right" type="button">
+                    <span>Go!</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

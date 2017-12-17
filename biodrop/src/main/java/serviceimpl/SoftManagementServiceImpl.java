@@ -2,6 +2,8 @@ package serviceimpl;
 
 import biojobs.BioDrop;
 import biojobs.BioDropDao;
+import biojobs.Tab;
+import biojobs.TabDao;
 import enums.DropOperationStatus;
 import model.request.BioDropRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,16 @@ import java.util.*;
 public class SoftManagementServiceImpl implements SoftManagementService {
 
     private final String defaultTab = "defaultPrograms";
+    private final String defaultTabName = "Miscellaneous programs";
     private final BioDropDao bioDropDao;
+    private final TabDao tabDao;
     private final StorageService storageService;
 
     @Autowired
-    public SoftManagementServiceImpl(BioDropDao bioDropDao, StorageService storageService) {
+    public SoftManagementServiceImpl(BioDropDao bioDropDao, TabDao tabDao, StorageService storageService) {
         this.bioDropDao = bioDropDao;
         this.storageService = storageService;
+        this.tabDao = tabDao;
     }
 
 
@@ -45,41 +50,45 @@ public class SoftManagementServiceImpl implements SoftManagementService {
 
 
     private DropOperationStatus saveProgram(BioDropRequest bioDropRequest) throws IOException {
-        BioDrop bioDrop;
-        bioDrop = bioDropDao.findBySubTab(bioDropRequest.getSubTab());
+        BioDrop bioDrop = bioDropDao.findBySubTab(bioDropRequest.getSubTab());
         if (bioDrop != null) {
             return DropOperationStatus.SUBTAB_EXISTS;
         }
 
-        StringBuilder programNameBuilder = new StringBuilder();
+        StringBuilder programAsStringBuilder = new StringBuilder();
         try (Reader reader = new BufferedReader(new InputStreamReader
                 (bioDropRequest.getProgram().getInputStream(), Charset.forName(StandardCharsets.UTF_8.name())))) {
             int c = 0;
             while ((c = reader.read()) != -1) {
-                programNameBuilder.append((char) c);
+                programAsStringBuilder.append((char) c);
             }
         }
 
-        bioDrop = bioDropDao.findByProgram(programNameBuilder.toString());
+        bioDrop = bioDropDao.findByProgram(programAsStringBuilder.toString());
         if (bioDrop != null) {
             return DropOperationStatus.PROGRAM_EXISTS;
         }
 
         BioDrop bioDropNew = new BioDrop();
         bioDropNew.setLongRunning(bioDropRequest.isLongRunning());
-        bioDropNew.setProgram(programNameBuilder.toString());
+        bioDropNew.setProgram(programAsStringBuilder.toString());
         String programName = bioDropRequest.getProgramName()+"_"+UUID.randomUUID().toString();
         bioDropNew.setProgramName(programName);
         bioDropNew.setScriptName(programName);
         bioDropNew.setNumberOfInputs(bioDropRequest.getNumberOfInputs());
         bioDropNew.setInputFilePrefixes(bioDropRequest.getInputFilePrefixes());
         bioDropNew.setOutputFilePrefixes(bioDropRequest.getOutputFilePrefixes());
-        bioDropNew.setTab(bioDropRequest.getTab() != null ? bioDropRequest.getTab() : defaultTab);
         bioDropNew.setSubTab(bioDropRequest.getSubTab());
+        bioDropNew.setSubTabLink("/" + bioDropRequest.getTab() + "/" + bioDropRequest.getSubTab());
+
         bioDropNew.setProgramLanguage(bioDropRequest.getProgramLanguage());
         bioDropNew.setProgramParameters(bioDropRequest.getProgramParameters());
         bioDropNew.setProgramDependencies(bioDropRequest.getProgramDependencies());
         bioDropNew.setProgramInstallInstructs(bioDropRequest.getProgramInstallInstructs());
+
+        String tabName = bioDropRequest.getTab() != null ? bioDropRequest.getTab() : defaultTab;
+        String tabText = bioDropRequest.getTab() != null ? bioDropRequest.getTabText() : defaultTabName;
+        analyzeAndSaveTab(tabName, tabText, bioDropNew);
 
         storageService.storeProgram(bioDropRequest.getProgram(), bioDropNew.getProgramName());
         bioDropDao.save(bioDropNew);
@@ -87,7 +96,18 @@ public class SoftManagementServiceImpl implements SoftManagementService {
         return DropOperationStatus.OK;
     }
 
-
+    private void analyzeAndSaveTab(String tabName,  String tabText, BioDrop bioDropNew) {
+        Tab existingTab = tabDao.findByTabName(tabName);
+        if (existingTab == null) {
+            Tab tab = new Tab();
+            tab.setTabName(tabName);
+            tab.setTabText(tabText);
+            tab.setTabLink("/" + tabName);
+            bioDropNew.setTab(tab);
+        } else {
+            bioDropNew.setTab(existingTab);
+        }
+    }
     //TODO
     /*private void installDependencies(BioDropRequest bioDropRequest) {
 

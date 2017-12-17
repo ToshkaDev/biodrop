@@ -5,7 +5,6 @@ package biojobs;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 @Entity
 @Table(name="biodrop")
 public class BioDrop {
@@ -17,6 +16,7 @@ public class BioDrop {
 
     @NotNull
     @Column(name="PROGRAM")
+    @Basic(fetch = FetchType.LAZY)
     private String program;
 
     @NotNull
@@ -40,12 +40,12 @@ public class BioDrop {
     private String outputFilePrefixes;
 
     @NotNull
-    @Column(name="TAB")
-    private String tab;
-
-    @NotNull
     @Column(name="SUB_TAB")
     private String subTab;
+
+    @NotNull
+    @Column(name="SUB_TAB_LINK")
+    private String subTabLink;
 
     @NotNull
     @Column(name="PROGRAM_PARAMETERS")
@@ -64,6 +64,11 @@ public class BioDrop {
 
     @Column(name="PROGRAM_INSTALL_INSTRUCTIONS")
     private String programInstallInstructs;
+
+    @ManyToOne
+    @JoinColumn(name="TAB_ID", nullable = false)
+    private Tab tab;
+
 
     public int getDropId() {
         return dropId;
@@ -89,11 +94,11 @@ public class BioDrop {
         this.programName = programName;
     }
 
-    public String getTab() {
+    public Tab getTab() {
         return tab;
     }
 
-    public void setTab(String tab) {
+    public void setTab(Tab tab) {
         this.tab = tab;
     }
 
@@ -175,5 +180,13 @@ public class BioDrop {
 
     public void setInputFilePrefixes(String inputFilePrefixes) {
         this.inputFilePrefixes = inputFilePrefixes;
+    }
+
+    public String getSubTabLink() {
+        return subTabLink;
+    }
+
+    public void setSubTabLink(String subTabLink) {
+        this.subTabLink = subTabLink;
     }
 }

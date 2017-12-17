@@ -73,6 +73,22 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <!-- https://mvnrepository.com/artifact/org.hibernate.orm.tooling/hibernate-enhance-maven-plugin -->
+                <plugin>
+                    <groupId>org.hibernate.orm.tooling</groupId>
+                    <artifactId>hibernate-enhance-maven-plugin</artifactId>
+                    <version>5.2.12.Final</version>
+                    <executions>
+                        <execution>
+                            <configuration>
+                                <enableLazyInitialization>true</enableLazyInitialization>
+                            </configuration>
+                            <goals>
+                                <goal>enhance</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
              </plugins>
     </build>
 </project>

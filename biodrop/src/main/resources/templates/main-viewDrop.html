@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="addContent(fragmentsMain, searchArea, filter)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="addContent(fragmentsMain, fragmentsParams, mainArea, params)">
 <head>
     <meta charset="UTF-8"/>
     <title>Bio</title>
@@ -11,7 +11,7 @@
 
 </head>
 <body>
-    <div th:replace="common :: main-navbar"></div>
+    <div th:replace="commonDrop :: main-navbar"></div>
 
     <div style="display: none">
         <span id="subnavigation-tab" th:text="${subnavigationTab}"></span>
@@ -26,11 +26,11 @@
 
     <div class="container-fluid">
         <div class="form-group col-md-12">
-            <div th:fragment="addContent(fragmentsMain, searchArea, tab, filter)">
+            <div th:fragment="addContent(fragmentsMain, fragmentsParams, mainArea, tab, params)">
                 <div th:replace="${fragmentsMain} :: ${tab}"></div>
                 <div class="col-md-10">
-                    <div th:replace="${fragmentsMain} :: ${searchArea}"></div>
-                    <div th:replace="${filter} ? ~{${fragmentsMain} :: ${filter}} : ~{}"></div>
+                    <div th:replace="${fragmentsMain} :: ${mainArea}"></div>
+                    <div th:replace="${params} ? ~{${fragmentsParams} :: ${params}} : ~{}"></div>
                </div>
            </div>
         </div>
@@ -59,6 +59,6 @@
     <script th:src="@{/js/send-and-process-data.js}"></script>
     <script th:src="@{${specificJs}}"></script>
 
-    <div th:replace="common :: copy"></div>
+    <div th:replace="commonDrop :: copy"></div>
 </body>
 </html>

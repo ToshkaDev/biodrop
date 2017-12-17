@@ -12,17 +12,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="@{/home}" style="font-size:120%; color:#D8F0E3">Bioinformatics Universe</a>
+                    <a class="navbar-brand" href="@{/home}" style="font-size:120%; color:#D8F0E3">Biodrop</a>
                 </div>
 
                 <div class="navbar-collapse" id="bu-navbar">
                     <ul class="nav navbar-nav">
-                        <li id="home"><a th:href="@{/home}">Home</a></li>
-                        <li id="sequence"><a th:href="@{/sequence}">Sequence</a></li>
-                        <li id="domain"><a th:href="@{/domain}">Domain</a></li>
-                        <li id="evolution"><a th:href="@{/evolution}">Evolution</a></li>
-                        <li id="blast"><a th:href="@{/blast}">Blast </a></li>
-                        <li id="protocols"><a th:href="@{/protocols}">Protocols </a></li>
+                        <li th:id="${tab.tabId}" th:each="tab: ${tabs}">
+                            <a th:href="@{${tab.link}}">
+                                <span th:text="${tab.name}"></span>
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li id="help"><a th:href="@{/help}">Help</a></li>

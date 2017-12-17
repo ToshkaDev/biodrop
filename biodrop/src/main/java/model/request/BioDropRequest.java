@@ -14,6 +14,7 @@ public class BioDropRequest {
     private String inputFilePrefixes;
     private String outputFilePrefixes;
     private String tab;
+    private String tabText;
     private String subTab;
     private String programParameters;
     private boolean isLongRunning;
@@ -123,5 +124,13 @@ public class BioDropRequest {
 
     public void setOutputFilePrefixes(String outputFilePrefixes) {
         this.outputFilePrefixes = outputFilePrefixes;
+    }
+
+    public String getTabText() {
+        return tabText;
+    }
+
+    public void setTabText(String tabText) {
+        this.tabText = tabText;
     }
 }

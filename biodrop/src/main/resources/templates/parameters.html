@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head></head>
+<body>
+
+    <div th:fragment="program-parameters-forOne-input">
+        <div class="col-md-2 panel panel-default">
+            <div class="panel-body">
+                <p class="text-primary">Set options:</p>
+                <div class="form-group">
+                    <form id="first">
+                        <small th:text="${selectionParamName}">Selection parameters:</small>
+                        <select th:id="${selectionParam.selectionParamId}" class="form-control input-sm">
+                            <option selected='selected' disabled="disabled">select</option>
+                            <option th:forEach="selectionParam : ${selectionParams}" th:value="${selectionParam.value}" th:text="${selectionParam.text}">
+                                Select option.
+                            </option>
+                        </select>
+                        <ul>
+                            <li th:forEach="param : ${programParams}">
+                                <small th:text="${param.paramName}">Parameter:</small>
+                                <input th:id="${param.paramId}" th:name="${param.paramId}" type="text" class="form-control input-sm"/>
+                            </li>
+                        </ul>
+                        <small th:text="${radioParamName}">Radio parameters:</small>
+                        <ul>
+                            <li th:forEach = "radioParam : ${programRadioParams}">
+                                <label class="radio-inline">
+                                    <input th:name="${radioParam.paramId}"
+                                           type="radio" th:value="${radioParam.value}" th:checked="${ifChecked}" th:text="${radioParam.paramName}"/>
+                                </label>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:fragment="program-parameters-forTwo-inputs">
+        <div class="col-md-2 panel panel-default">
+            <div class="panel-body">
+                <p class="text-primary">Set options:</p>
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <div class="form-group">
+                            <form id ="first">
+                                <small th:text="${selectionParamNameFirst}">Selection parameters:</small>
+                                <select th:id="${selectionParamFirst.selectionParamId}" class="form-control input-sm">
+                                    <option selected='selected' disabled="disabled">select</option>
+                                    <option th:forEach="selectionParam : ${selectionParamsFirst}" th:value="${selectionParam.value}" th:text="${selectionParam.text}">
+                                        Select option.
+                                    </option>
+                                </select>
+                                <ul>
+                                    <li th:forEach="param : ${programParamsFirst}">
+                                        <small th:text="${param.paramName}">Parameter:</small>
+                                        <input th:id="${param.paramId}" th:name="${param.paramId}" type="text" class="form-control input-sm"/>
+                                    </li>
+                                </ul>
+                                <small th:text="${radioParamNameFirst}">Radio parameters:</small>
+                                <ul>
+                                    <li th:forEach = "radioParam : ${radioParamsFirst}">
+                                        <label class="radio-inline">
+                                            <input th:name="${radioParam.paramId}"
+                                                   type="radio" th:value="${radioParam.value}" th:checked="${ifChecked}" th:text="${radioParam.paramName}"/>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <form id ="second">
+                                <small th:text="${selectionParamNameSecond}">Selection parameters:</small>
+                                <select th:id="${selectionParamSecond.selectionParamId}" class="form-control input-sm">
+                                    <option selected='selected' disabled="disabled">select</option>
+                                    <option th:forEach="selectionParam : ${selectionParamsSecond}" th:value="${selectionParam.value}" th:text="${selectionParam.text}">
+                                        Select option.
+                                    </option>
+                                </select>
+                                <ul>
+                                    <li th:forEach="param : ${programParamsSecond}">
+                                        <small th:text="${param.paramName}">Parameter:</small>
+                                        <input th:id="${param.paramId}" th:name="${param.paramId}" type="text" class="form-control input-sm"/>
+                                    </li>
+                                </ul>
+                                <small th:text="${radioParamNameSecond}">Radio parameters:</small>
+                                <ul>
+                                    <li th:forEach = "radioParam : ${radioParamsSecond}">
+                                        <label class="radio-inline">
+                                            <input th:name="${radioParam.paramId}"
+                                                   type="radio" th:value="${radioParam.value}" th:checked="${ifChecked}" th:text="${radioParam.paramName}"/>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

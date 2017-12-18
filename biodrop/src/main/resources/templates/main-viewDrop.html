@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="addContent(fragmentsMain, fragmentsParams, mainArea, params)">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="addContent(subNavbarAndInputFragments, paramFragments, searchArea, params)">
 <head>
     <meta charset="UTF-8"/>
     <title>Bio</title>
@@ -26,11 +26,11 @@
 
     <div class="container-fluid">
         <div class="form-group col-md-12">
-            <div th:fragment="addContent(fragmentsMain, fragmentsParams, mainArea, tab, params)">
-                <div th:replace="${fragmentsMain} :: ${tab}"></div>
+            <div th:fragment="addContent(subNavbarAndInputFragments, paramFragments, searchArea, tab, params)">
+                <div th:replace="${subNavbarAndInputFragments} :: ${tab}"></div>
                 <div class="col-md-10">
-                    <div th:replace="${fragmentsMain} :: ${mainArea}"></div>
-                    <div th:replace="${params} ? ~{${fragmentsParams} :: ${params}} : ~{}"></div>
+                    <div th:replace="${subNavbarAndInputFragments} :: ${searchArea}"></div>
+                    <div th:replace="${params} ? ~{${paramFragments} :: ${params}} : ~{}"></div>
                </div>
            </div>
         </div>

@@ -9,7 +9,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
-                        <li th:id="${subTab.subTabId}" th:each="subTab: ${subTabs}">
+                        <li th:id="${subTab.name}" th:each="subTab: ${subTabs}">
                             <a th:href="@{${subTab.link}}">
                                 <span th:text="${subTab.name}"></span>
                             </a>
@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div th:fragment="mainArea-multiple-inputs">
+    <div th:fragment="searchArea-multiple-inputs">
         <div class="col-md-8 my-textarea">
             <div class="row">
                 <label class="btn btn-default btn-lg">
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div th:fragment="mainArea-two-inputs">
+    <div th:fragment="searchArea-two-inputs">
         <div class="col-md-4 my-textarea">
             <div class="row">
                 <textarea id="first-file-area" class="form-control" placeholder="Paste names" rows="8"> </textarea>
@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <div th:fragment="mmainArea-one-input">
+    <div th:fragment="searchArea-one-input">
         <div class="col-md-8 my-textarea">
             <div class="row">
                 <textarea id="first-file-area" class="form-control" placeholder="Paste sequences in fasta format." rows="8"> </textarea>

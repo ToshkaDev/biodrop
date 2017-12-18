@@ -11,21 +11,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import service.BioTaskLongRunningService;
-import service.BioTaskService;
+import org.json.*;
 import service.StorageService;
 import serviceimpl.BioTaskServiceImpl;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BioTaskController extends BioUniverseController {
     public final BioTaskServiceImpl bioTaskServiceImpl;
     public final BioTaskLongRunningService bioTaskLongRunningService;
-
-    @Autowired
     public final TabDao tabDao;
 
+    @Autowired
     public BioTaskController(StorageService storageService, BioTaskServiceImpl bioTaskServiceImpl, BioTaskLongRunningService bioTaskLongRunningService,TabDao tabDao) {
         super(storageService);
         this.bioTaskServiceImpl = bioTaskServiceImpl;
@@ -56,11 +56,44 @@ public class BioTaskController extends BioUniverseController {
     public String getByNamePage(@PathVariable("tab") String tabName, @PathVariable("subTab") String subTab, Model model) {
         addToModelCommon(model);
         BioDrop bioDrop = bioTaskServiceImpl.getBioDropDao().findBySubTab(subTab);
+        List<Tab> allTabs = tabDao.findAll();
+        Tab tab = tabDao.findByTabName(tabName);
 
         int inputNum = bioDrop.getNumberOfInputs();
-        String [] parameters = bioDrop.getProgramParameters().split(";");
 
-        Tab tab = tabDao.findByTabName(tabName);
+        JSONObject programParams = new JSONObject(bioDrop.getProgramParameters());
+
+
+        List<Object> usualParams = programParams.getJSONArray("usualParams").toList();
+        JSONObject selectionPrams = programParams.getJSONObject("selectionPrams");
+        JSONObject radioParams = programParams.getJSONObject("radioParams");
+        JSONObject checkBoxParams = programParams.getJSONObject("checkBoxParams");
+
+
+        model.addAttribute("programParams", usualParams);
+
+
+
+
+        List<BioDrop> bioDropList = tab.getBioDropList();
+
+
+
+
+/*        "selectionParamName"
+        "selectionParamId"
+        "selectionParams :" "selectionParam.value" "selectionParam.text"
+
+
+        "programParams :" "param.paramName"
+
+
+        "radioParamName"
+        "radioParams :" "radioParam.paramName" "radioParam.value"*/
+
+
+
+
         List<String> subTabsNames = new LinkedList<>();
         List<String> subTabsLinks = new LinkedList<>();
 
@@ -71,8 +104,8 @@ public class BioTaskController extends BioUniverseController {
 
         model.addAttribute("subnavigationTab", BioPrograms.CREATE_COGS.getProgramName());
 
-        return "main-view  :: addContent(" +
-                "fragmentsMain='evolution-fragments', fragmentsParams='parameters', mainArea='mainArea-multiple-inputs', " +
+        return "main-viewDrop  :: addContent(" +
+                "subNavbarAndInputFragments='subNavbarAndInputs', paramFragments='parameters', searchArea='searchArea-multiple-inputs', " +
                 "tab='subTab-navbar', params='program-parameters-forOne-input')";
     }
 

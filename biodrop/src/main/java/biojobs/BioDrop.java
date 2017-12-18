@@ -5,6 +5,8 @@ package biojobs;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+
 @Entity
 @Table(name="biodrop")
 public class BioDrop {
@@ -32,11 +34,11 @@ public class BioDrop {
     private Integer numberOfInputs;
 
     @NotNull
-    @Column(name="INPUT_PARAM_PREFIXES")
+    @Column(name="INPUT_FILES_PREFIXES")
     private String inputFilePrefixes;
 
     @NotNull
-    @Column(name="OUTPUT_PARAM_PREFIXES")
+    @Column(name="OUTPUT_FILES_PREFIXES")
     private String outputFilePrefixes;
 
     @NotNull
@@ -47,6 +49,32 @@ public class BioDrop {
     @Column(name="SUB_TAB_LINK")
     private String subTabLink;
 
+    /*
+        {
+            "usualParams": [
+                {
+                    "paramName": "paramName",
+                    "paramPrefix": "paramPrefix",
+                },
+                {
+                    "paramName": "paramName",
+                    "paramPrefix": "paramPrefix",
+                }
+            ],
+            "selectionPrams": {
+                "paramNam": "paramPrefix",
+                "paramOptions": []
+            }
+            "radioParams": {
+                "paramName" : "paramPrefix",
+                "paramOptioins": []
+            }
+            "checkBoxParams": {
+                "paramName" : "paramPrefix",
+                "paramOptioins": []
+            }
+        }
+    */
     @NotNull
     @Column(name="PROGRAM_PARAMETERS")
     private String programParameters;
@@ -64,6 +92,7 @@ public class BioDrop {
 
     @Column(name="PROGRAM_INSTALL_INSTRUCTIONS")
     private String programInstallInstructs;
+
 
     @ManyToOne
     @JoinColumn(name="TAB_ID", nullable = false)

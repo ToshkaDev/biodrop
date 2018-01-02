@@ -6,6 +6,6 @@ public interface BioDropDao extends JpaRepository<BioDrop, Integer> {
 
     BioDrop findByDropId(int dropId);
     BioDrop findByProgram(String program);
-    BioDrop findBySubTab(String subTab);
+    BioDrop findBySubTabName(String subTab);
 
 }

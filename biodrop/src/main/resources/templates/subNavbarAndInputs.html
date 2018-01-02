@@ -9,9 +9,9 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-stacked">
-                        <li th:id="${subTab.name}" th:each="subTab: ${subTabs}">
-                            <a th:href="@{${subTab.link}}">
-                                <span th:text="${subTab.name}"></span>
+                        <li th:id="${bioDrop.subTab}" th:each="bioDrop: ${bioDropList}">
+                            <a th:href="@{${subTab.subTabLink}}">
+                                <span th:text="${subTab.subTab}"></span>
                             </a>
                         </li>
                     </ul>

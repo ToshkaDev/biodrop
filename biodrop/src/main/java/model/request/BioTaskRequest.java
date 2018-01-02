@@ -8,6 +8,7 @@ import java.util.Map;
 public class BioTaskRequest {
     private List<String> listOfFilesParamPrefixes;
     private List<MultipartFile> listOfFiles;
+    //map from programName to list of params prefixed with corresponding prefixes
     private Map<String, List<String>> parameters;
     private String subTab;
 

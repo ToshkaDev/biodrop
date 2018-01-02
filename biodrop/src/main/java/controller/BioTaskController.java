@@ -15,6 +15,7 @@ import org.json.*;
 import service.StorageService;
 import serviceimpl.BioTaskServiceImpl;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,8 @@ public class BioTaskController extends BioUniverseController {
     public final TabDao tabDao;
 
     @Autowired
-    public BioTaskController(StorageService storageService, BioTaskServiceImpl bioTaskServiceImpl, BioTaskLongRunningService bioTaskLongRunningService,TabDao tabDao) {
+    public BioTaskController(StorageService storageService, BioTaskServiceImpl bioTaskServiceImpl,
+                             BioTaskLongRunningService bioTaskLongRunningService,TabDao tabDao) {
         super(storageService);
         this.bioTaskServiceImpl = bioTaskServiceImpl;
         this.bioTaskLongRunningService = bioTaskLongRunningService;
@@ -44,7 +46,7 @@ public class BioTaskController extends BioUniverseController {
         addToModelCommon(model);
         Tab tab = tabDao.findByTabName(tabName);
         List<String> subTabs = new LinkedList<>();
-        tab.getBioDropList().forEach(biodrop -> subTabs.add(biodrop.getSubTab()));
+        tab.getBioDropList().forEach(biodrop -> subTabs.add(biodrop.getSubTabName()));
 
 
         return null;
@@ -53,15 +55,17 @@ public class BioTaskController extends BioUniverseController {
 
     //Ex., /tab_evolution/subTab_createCogs
     @GetMapping(value={"/{tab:tab.+}/{subTab:subTab.+}"})
-    public String getByNamePage(@PathVariable("tab") String tabName, @PathVariable("subTab") String subTab, Model model) {
+    public String getByNamePage(@PathVariable("tab") String tabName, @PathVariable("subTab") String subTabName, Model model) {
         addToModelCommon(model);
-        BioDrop bioDrop = bioTaskServiceImpl.getBioDropDao().findBySubTab(subTab);
+        BioDrop bioDrop = bioTaskServiceImpl.getBioDropDao().findBySubTabName(subTabName);
         List<Tab> allTabs = tabDao.findAll();
         Tab tab = tabDao.findByTabName(tabName);
 
         int inputNum = bioDrop.getNumberOfInputs();
 
         JSONObject programParams = new JSONObject(bioDrop.getProgramParameters());
+
+        model.addAttribute("programParams", programParams);
 
 
         List<Object> usualParams = programParams.getJSONArray("usualParams").toList();
@@ -70,10 +74,7 @@ public class BioTaskController extends BioUniverseController {
         JSONObject checkBoxParams = programParams.getJSONObject("checkBoxParams");
 
 
-        model.addAttribute("programParams", usualParams);
-
-
-
+        model.addAttribute("usualParams", usualParams);
 
         List<BioDrop> bioDropList = tab.getBioDropList();
 
@@ -91,18 +92,10 @@ public class BioTaskController extends BioUniverseController {
         "radioParamName"
         "radioParams :" "radioParam.paramName" "radioParam.value"*/
 
-
-
-
-        List<String> subTabsNames = new LinkedList<>();
-        List<String> subTabsLinks = new LinkedList<>();
-
-        for (BioDrop biodrop : tab.getBioDropList()) {
-            subTabsNames.add(biodrop.getSubTab());
-            subTabsLinks.add(biodrop.getSubTabLink());
-        }
-
-        model.addAttribute("subnavigationTab", BioPrograms.CREATE_COGS.getProgramName());
+        model.addAttribute("tabs", tabDao.findAll());
+        model.addAttribute("mainTab", tabName);
+        model.addAttribute("bioDropList", tab.getBioDropList());
+        model.addAttribute("subnavigationTab", subTabName);
 
         return "main-viewDrop  :: addContent(" +
                 "subNavbarAndInputFragments='subNavbarAndInputs', paramFragments='parameters', searchArea='searchArea-multiple-inputs', " +

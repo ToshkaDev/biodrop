@@ -10,22 +10,24 @@
                 <p class="text-primary">Set options:</p>
                 <div class="form-group">
                     <form id="first">
-                        <small th:text="${selectionParamName}">Selection parameters:</small>
-                        <select th:id="${selectionParamId}" class="form-control input-sm">
+                        <small th:text="${programParams.selectionParams.paramName}">Selection parameters:</small>
+                        <select class="selectParams form-control input-sm" th:id="${programParams.selectionParams.paramPrefix}">
                             <option selected='selected' disabled="disabled">select</option>
-                            <option th:forEach="selectionParam : ${selectionParams}" th:value="${selectionParam.value}" th:text="${selectionParam.text}">
+                            <option th:forEach="selectionParam : ${programParams.selectionParams.paramOptions}"
+                                    th:value="${selectionParam.value}"
+                                    th:text="${selectionParam.text}?: ${selectionParam.value}">
                                 Select option.
                             </option>
                         </select>
-                        <ul>
-                            <li th:forEach="param : ${programParams}">
+                        <ul class="usualParams">
+                            <li th:forEach="param : ${programParams.usualParams}">
                                 <small th:text="${param.paramName}">Parameter:</small>
-                                <input th:id="${param.paramName}" th:name="${param.paramName}" type="text" class="form-control input-sm"/>
+                                <input th:id="${param.paramPrefix}" th:name="${param.paramName}" type="text" class="form-control input-sm"/>
                             </li>
                         </ul>
                         <small th:text="${radioParamName}">Radio parameters:</small>
-                        <ul>
-                            <li th:forEach = "radioParam : ${radioParams}">
+                        <ul class="radioParams" th.id="${programParams.radioParams.paramPrefix}" >
+                            <li th:forEach = "radioParam : ${programParams.radioParams}">
                                 <label class="radio-inline">
                                     <input th:name="${radioParam.paramName}"
                                            type="radio" th:value="${radioParam.value}" th:checked="${ifChecked}" th:text="${radioParam.paramName}"/>

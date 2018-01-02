@@ -50,7 +50,7 @@ public class SoftManagementServiceImpl implements SoftManagementService {
 
 
     private DropOperationStatus saveProgram(BioDropRequest bioDropRequest) throws IOException {
-        BioDrop bioDrop = bioDropDao.findBySubTab(bioDropRequest.getSubTab());
+        BioDrop bioDrop = bioDropDao.findBySubTabName(bioDropRequest.getSubTab());
         if (bioDrop != null) {
             return DropOperationStatus.SUBTAB_EXISTS;
         }
@@ -78,7 +78,7 @@ public class SoftManagementServiceImpl implements SoftManagementService {
         bioDropNew.setNumberOfInputs(bioDropRequest.getNumberOfInputs());
         bioDropNew.setInputFilePrefixes(bioDropRequest.getInputFilePrefixes());
         bioDropNew.setOutputFilePrefixes(bioDropRequest.getOutputFilePrefixes());
-        bioDropNew.setSubTab(bioDropRequest.getSubTab());
+        bioDropNew.setSubTabName(bioDropRequest.getSubTab());
         bioDropNew.setSubTabLink("/" + bioDropRequest.getTab() + "/" + bioDropRequest.getSubTab());
 
         bioDropNew.setProgramLanguage(bioDropRequest.getProgramLanguage());

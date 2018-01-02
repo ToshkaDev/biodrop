@@ -42,8 +42,11 @@ public class BioDrop {
     private String outputFilePrefixes;
 
     @NotNull
-    @Column(name="SUB_TAB")
-    private String subTab;
+    @Column(name="SUB_TAB_NAME")
+    private String subTabName;
+
+    @Column(name="SUB_TAB_TEXT")
+    private String subTabText;
 
     @NotNull
     @Column(name="SUB_TAB_LINK")
@@ -62,16 +65,19 @@ public class BioDrop {
                 }
             ],
             "selectionPrams": {
-                "paramNam": "paramPrefix",
+                "paramName": "paramName",
+                "paramPrefix": "paramPrefix"
                 "paramOptions": []
             }
             "radioParams": {
-                "paramName" : "paramPrefix",
-                "paramOptioins": []
+                "paramName": "paramName",
+                "paramPrefix": "paramPrefix"
+                "paramOptions": []
             }
             "checkBoxParams": {
-                "paramName" : "paramPrefix",
-                "paramOptioins": []
+                "paramName": "paramName",
+                "paramPrefix": "paramPrefix"
+                "paramOptions": []
             }
         }
     */
@@ -131,12 +137,12 @@ public class BioDrop {
         this.tab = tab;
     }
 
-    public String getSubTab() {
-        return subTab;
+    public String getSubTabName() {
+        return subTabName;
     }
 
-    public void setSubTab(String subTab) {
-        this.subTab = subTab;
+    public void setSubTabName(String subTabName) {
+        this.subTabName = subTabName;
     }
 
     public String getProgramParameters() {
@@ -217,5 +223,13 @@ public class BioDrop {
 
     public void setSubTabLink(String subTabLink) {
         this.subTabLink = subTabLink;
+    }
+
+    public String getSubTabText() {
+        return subTabText;
+    }
+
+    public void setSubTabText(String subTabText) {
+        this.subTabText = subTabText;
     }
 }

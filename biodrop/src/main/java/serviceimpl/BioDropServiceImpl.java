@@ -95,7 +95,7 @@ public class BioDropServiceImpl implements BioDropService {
         } else if (bioTaskRequest.getListOfFiles() == null) {
             throw new IncorrectRequestException("List of input files of BioTaskRequest can not be empty.");
         }
-        BioDrop bioDrop = bioDropDao.findBySubTab(bioTaskRequest.getSubTab());
+        BioDrop bioDrop = bioDropDao.findBySubTabName(bioTaskRequest.getSubTab());
         if (bioDrop.getNumberOfInputs() < bioTaskRequest.getListOfFiles().size()) {
             throw new IncorrectRequestException("Number of input files can not be less than " +  bioDrop.getNumberOfInputs());
         }

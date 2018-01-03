@@ -25,6 +25,10 @@ public class BioTaskController extends BioUniverseController {
     public final BioTaskServiceImpl bioTaskServiceImpl;
     public final BioTaskLongRunningService bioTaskLongRunningService;
     public final TabDao tabDao;
+    private static final String basicReturn = "main-viewDrop  :: addContent(" +
+            "subNavbarAndInputFragments='subNavbarAndInputs', paramFragments='parameters', searchArea='selectSearch', " +
+            "tab='subTab-navbar', params='program-parameters')";
+    private static final String[] searchAreas = {"searchArea-multiple-inputs", "searchArea-two-inputs", "searchArea-one-input"};
 
     @Autowired
     public BioTaskController(StorageService storageService, BioTaskServiceImpl bioTaskServiceImpl,
@@ -58,48 +62,30 @@ public class BioTaskController extends BioUniverseController {
     public String getByNamePage(@PathVariable("tab") String tabName, @PathVariable("subTab") String subTabName, Model model) {
         addToModelCommon(model);
         BioDrop bioDrop = bioTaskServiceImpl.getBioDropDao().findBySubTabName(subTabName);
-        List<Tab> allTabs = tabDao.findAll();
         Tab tab = tabDao.findByTabName(tabName);
-
-        int inputNum = bioDrop.getNumberOfInputs();
-
         JSONObject programParams = new JSONObject(bioDrop.getProgramParameters());
+        String view;
+
+//        List<Object> usualParams = programParams.getJSONArray("usualParams").toList();
+//        JSONObject selectionPrams = programParams.getJSONObject("selectionPrams");
+//        JSONObject radioParams = programParams.getJSONObject("radioParams");
+//        JSONObject checkBoxParams = programParams.getJSONObject("checkBoxParams");
 
         model.addAttribute("programParams", programParams);
-
-
-        List<Object> usualParams = programParams.getJSONArray("usualParams").toList();
-        JSONObject selectionPrams = programParams.getJSONObject("selectionPrams");
-        JSONObject radioParams = programParams.getJSONObject("radioParams");
-        JSONObject checkBoxParams = programParams.getJSONObject("checkBoxParams");
-
-
-        model.addAttribute("usualParams", usualParams);
-
-        List<BioDrop> bioDropList = tab.getBioDropList();
-
-
-
-
-/*        "selectionParamName"
-        "selectionParamId"
-        "selectionParams :" "selectionParam.value" "selectionParam.text"
-
-
-        "programParams :" "param.paramName"
-
-
-        "radioParamName"
-        "radioParams :" "radioParam.paramName" "radioParam.value"*/
-
         model.addAttribute("tabs", tabDao.findAll());
         model.addAttribute("mainTab", tabName);
         model.addAttribute("bioDropList", tab.getBioDropList());
         model.addAttribute("subnavigationTab", subTabName);
 
-        return "main-viewDrop  :: addContent(" +
-                "subNavbarAndInputFragments='subNavbarAndInputs', paramFragments='parameters', searchArea='searchArea-multiple-inputs', " +
-                "tab='subTab-navbar', params='program-parameters-forOne-input')";
+        if (bioDrop.getNumberOfInputs() == 1) {
+            view = basicReturn.replace("selectSearch", searchAreas[2]);
+        } else if (bioDrop.getNumberOfInputs() == 2) {
+            view = basicReturn.replace("selectSearch", searchAreas[1]);
+        } else {
+            view = basicReturn.replace("selectSearch", searchAreas[0]);
+        }
+
+        return view;
     }
 
     //Ex., /tab_evolution/process-request

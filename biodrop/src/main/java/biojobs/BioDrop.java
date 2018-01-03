@@ -53,33 +53,49 @@ public class BioDrop {
     private String subTabLink;
 
     /*
-        {
-            "usualParams": [
+    {
+	    "usualParams": [
+            {
+                "paramName": "someName",
+                "paramPrefix": "somePrefix",
+            },
+            {
+                "paramName": "someName",
+                "paramPrefix": "somePrefix",
+            }
+        ],
+        "selectionParams": {
+            "paramName": "paramName",
+            "paramPrefix": "paramPrefix"
+            "paramOptions": [
                 {
-                    "paramName": "paramName",
-                    "paramPrefix": "paramPrefix",
-                },
-                {
-                    "paramName": "paramName",
-                    "paramPrefix": "paramPrefix",
+                    "value: "someValue",
+                    "text": "someText",
                 }
-            ],
-            "selectionPrams": {
-                "paramName": "paramName",
-                "paramPrefix": "paramPrefix"
-                "paramOptions": []
-            }
-            "radioParams": {
-                "paramName": "paramName",
-                "paramPrefix": "paramPrefix"
-                "paramOptions": []
-            }
-            "checkBoxParams": {
-                "paramName": "paramName",
-                "paramPrefix": "paramPrefix"
-                "paramOptions": []
-            }
+            ]
         }
+        "radioParams": {
+            "paramName": "paramName",
+            "paramPrefix": "paramPrefix"
+            "paramOptions": [
+                {
+                    "value: "someValue",
+                    "text": "someText",
+                }
+            ]
+        }
+        "checkBoxParams": {
+            "paramName": "paramName",
+            "paramOptions": [
+                {
+                    "optionName" : "someName",
+                    "optionPrefix": "optionPrefix"
+                    "value: "someValue",
+                    "text": "someText",
+                }
+            ]
+        }
+    }
     */
     @NotNull
     @Column(name="PROGRAM_PARAMETERS")
